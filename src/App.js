@@ -1,11 +1,7 @@
-
-
 import Input from './components/Input';
 import Button from './components/Button';
 import { Container, Content, Row, } from './styles';
 import { useState } from 'react';
-
-
 
 const App = () => {
   const [currentNumber, setCurrentNumber] = useState ('0');
@@ -50,6 +46,30 @@ const App = () => {
     }
   }
 
+  const handleMultiplyNumbers = () => {
+    if(firstNumber === '0'){
+      setFirstNumber(String(currentNumber));
+      setCurrentNumber('0');
+      setOperation('x');
+    } else {
+      const sum = Number(firstNumber) * Number(currentNumber);
+      setCurrentNumber(String(sum))
+      setOperation('')
+    }
+  }
+
+  const handleShareNumbers = () => {
+    if(firstNumber === '0'){
+      setFirstNumber(String(currentNumber));
+      setCurrentNumber('0');
+      setOperation('/');
+    } else {
+      const sum = Number(firstNumber) / Number(currentNumber);
+      setCurrentNumber(String(sum))
+      setOperation('')
+    }
+  }
+
   const handleEquals = () => {
     if(firstNumber !== '0' && operation !== '' && currentNumber !== '0'){
      switch(operation) {
@@ -59,12 +79,17 @@ const App = () => {
       case '-':
         handleMinusNumbers()
         break;
+      case 'x':
+        handleMultiplyNumbers()
+        break;
+      case '/':
+        handleShareNumbers()
+        break;
         default:
           break;
      }
     }
   }
-
 
   return (
     <Container>
@@ -73,14 +98,14 @@ const App = () => {
         <Row>
           <Button label="C" onClick={() => handleOnClear('')} />
           <Button label="CE" onClick={handleOnClearLastNum}/>
-          <Button label="%" onClick={() => handleAddNumber('')} />
-          <Button label="/" onClick={() => handleAddNumber('')} />
+          <Button label="." onClick={() => handleAddNumber('.')} />
+          <Button label="/" onClick={handleShareNumbers} />
         </Row>
         <Row>
           <Button label="7" onClick={() => handleAddNumber('7')} />
           <Button label="8" onClick={() => handleAddNumber('8')} />
           <Button label="9" onClick={() => handleAddNumber('9')} />
-          <Button label="x" onClick={() => handleAddNumber('')} />
+          <Button label="x" onClick={handleMultiplyNumbers} />
         </Row>
         <Row>
           <Button label="4" onClick={() => handleAddNumber('4')} />
@@ -96,8 +121,6 @@ const App = () => {
         </Row>
         <Row>
           <Button label="0" onClick={() => handleAddNumber('0')} />
-          <Button label="," onClick={() => handleAddNumber(',')} />
-          <Button label="." onClick={() => handleAddNumber('.')} />
           <Button label="=" onClick={handleEquals} />
         </Row>
       </Content>
